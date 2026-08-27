@@ -3,15 +3,33 @@
 Static HTML/CSS/JS wireframe of r-rcigars.com, for Red to click through and comment on
 before final build. No framework, no build step — every page opens as-is.
 
+## Go-live scope
+
+The first live release of r-rcigars.com is **Home, Visit Us, and Contact only** — the
+Order Ahead flow (login → catalog/cart → vendor directory) is built and stays in this
+repo, but is intentionally unlinked from the go-live nav until ordering is ready to
+launch. Each go-live page's `<nav>` has the two ordering links commented out right next
+to the live ones, so re-enabling ordering later is a one-line uncomment on `index.html`,
+`visit.html`, and `contact.html` — the ordering pages themselves (`login.html`,
+`order.html`, `vendors/*`) already link correctly to everything, including each other.
+Note the ordering pages remain reachable by direct URL even while unlinked — this is a
+"soft launch" hold-back, not access-controlled.
+
 ## Pages
 
-- `index.html` — Home landing page
-- `login.html` — Member sign-in (simulated; redirects to order.html on "sign in")
-- `order.html` — Order Ahead page (catalog, cart, pickup/locker details)
-- `vendors/index.html` — Vendor directory (15 vendors, 2 with live example pages)
-- `vendors/drew-estate.html`, `vendors/oliva.html` — Example vendor detail pages
+- `index.html` — Home landing page. Nav: Home / Visit Us / Contact.
+- `visit.html` — Visit Us: address, hours, phone, email, and an embedded Google map with
+  a "Get Directions" link, for 5946 Osgood Ave N, Oak Park Heights, MN 55082.
+- `contact.html` — Contact: email, phone, and location cards with quick email/directions actions.
+- `login.html` — Member sign-in (simulated; redirects to order.html on "sign in"). Held back from go-live nav.
+- `order.html` — Order Ahead page (catalog, cart, pickup/locker details, with the same
+  Visit Us map embed). Held back from go-live nav.
+- `vendors/index.html` — Vendor directory (15 vendors, 2 with live example pages). Held back from go-live nav.
+- `vendors/drew-estate.html`, `vendors/oliva.html` — Example vendor detail pages. Held back from go-live nav.
 
-Flow: Home → Order Ahead link → Login → (simulated sign-in) → Order Ahead → Our Selection → vendor page → back.
+Go-live flow: Home ↔ Visit Us ↔ Contact.
+Ordering flow (not yet linked from go-live nav): Home → Order Ahead link → Login →
+(simulated sign-in) → Order Ahead → Our Selection → vendor page → back.
 
 ## Publish to preview.r-rcigars.com via GitHub Pages
 
@@ -51,4 +69,11 @@ Once Red signs off on the design, this same content becomes the live site:
   Plan doc for the real design).
 - Cart/order submission does not send anywhere yet — it's a UI walkthrough only.
 - 13 of 15 vendor cards link to "#" — only Drew Estate and Oliva have example detail pages.
-- Store hours on the Home/Order Ahead pages are still placeholder text.
+- Store hours and the phone number are still placeholder text on Home, Visit Us, Contact,
+  and Order Ahead — replace before flipping this to live.
+- Contact page is email/phone/map only — no working contact form (would need a form
+  backend like Formspree, since this is a static site with no server).
+- The Visit Us / Order Ahead map is a keyless `google.com/maps?...&output=embed` iframe
+  for 5946 Osgood Ave N, Oak Park Heights, MN 55082 — no API key or billing required.
+  It's tinted (`filter: invert() hue-rotate()`) to sit against the dark theme instead of
+  a stark white rectangle.
