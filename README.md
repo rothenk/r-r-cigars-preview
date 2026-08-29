@@ -1,79 +1,63 @@
-# R&R Cigars — Design Preview Site
+# R&R Cigars — Email Templates
 
-Static HTML/CSS/JS wireframe of r-rcigars.com, for Red to click through and comment on
-before final build. No framework, no build step — every page opens as-is.
+Two ready-to-use templates, both built from the real logo artwork and the confirmed
+business address (5946 Osgood Ave N, Oak Park Heights, MN 55082).
 
-## Go-live scope
+## 1. `signature.html` — Gmail signature
 
-The first live release of r-rcigars.com is **Home, Visit Us, and Contact only** — the
-Order Ahead flow (login → catalog/cart → vendor directory) is built and stays in this
-repo, but is intentionally unlinked from the go-live nav until ordering is ready to
-launch. Each go-live page's `<nav>` has the two ordering links commented out right next
-to the live ones, so re-enabling ordering later is a one-line uncomment on `index.html`,
-`visit.html`, and `contact.html` — the ordering pages themselves (`login.html`,
-`order.html`, `vendors/*`) already link correctly to everything, including each other.
-Note the ordering pages remain reachable by direct URL even while unlinked — this is a
-"soft launch" hold-back, not access-controlled.
+A one-time-setup signature block with the logo, name/title line, address, phone, and
+email, in R&R's red/gold branding. The logo is embedded directly in the file (as a
+data URI) so it survives copy-paste with no external image dependency.
 
-## Pages
+**Install:**
+1. Open `signature.html` in a browser (double-click it).
+2. Click inside the signature, press Ctrl/Cmd+A to select all, then Ctrl/Cmd+C to copy.
+3. Gmail → Settings (gear) → "See all settings" → General → Signature → "Create new" →
+   click into the empty box → Ctrl/Cmd+V to paste → scroll down → Save Changes.
+4. Before pasting, edit the `Red [Last Name]` line and `[Phone number]` link in the
+   file for whoever is setting it up — each person who wants this signature needs their
+   own name/title on that line.
 
-- `index.html` — Home landing page. Nav: Home / Visit Us / Contact.
-- `visit.html` — Visit Us: address, hours, phone, email, and an embedded Google map with
-  a "Get Directions" link, for 5946 Osgood Ave N, Oak Park Heights, MN 55082.
-- `contact.html` — Contact: email, phone, and location cards with quick email/directions actions.
-- `login.html` — Member sign-in (simulated; redirects to order.html on "sign in"). Held back from go-live nav.
-- `order.html` — Order Ahead page (catalog, cart, pickup/locker details, with the same
-  Visit Us map embed). Held back from go-live nav.
-- `vendors/index.html` — Vendor directory (15 vendors, 2 with live example pages). Held back from go-live nav.
-- `vendors/drew-estate.html`, `vendors/oliva.html` — Example vendor detail pages. Held back from go-live nav.
+Repeat per Gmail account. Outlook and Apple Mail have their own signature editors but
+accept the same copy-paste approach.
 
-Go-live flow: Home ↔ Visit Us ↔ Contact.
-Ordering flow (not yet linked from go-live nav): Home → Order Ahead link → Login →
-(simulated sign-in) → Order Ahead → Our Selection → vendor page → back.
+## 2. `email-template.html` — Announcement / newsletter template
 
-## Publish to preview.r-rcigars.com via GitHub Pages
+A full HTML email layout (header with logo → headline → body copy → button → footer
+with store info) for one-off sends: new arrivals, events, promotions, seasonal updates —
+this is the same shape Red's transition-pricing announcement would use going forward.
 
-1. Create a new GitHub repo (e.g. `rr-cigars-preview`). Public repo — GitHub Pages custom
-   domains on private repos need a paid GitHub plan.
-2. Push everything in this folder to the repo's `main` branch, at the root (not a subfolder).
-3. In the repo: Settings → Pages → Build and deployment → Source: "Deploy from a branch" →
-   Branch: `main` / `root` → Save.
-4. Still in Settings → Pages, under "Custom domain" enter `preview.r-rcigars.com` and save.
-   (The `CNAME` file already in this repo does this automatically too — GitHub will pick it up.)
-5. Have John (holds the AWS Route 53 account for r-rcigars.com) add one DNS record —
-   this is allowed even while the registrar transfer lock is active, since it's a DNS
-   edit, not a registrar change:
-   - Type: `CNAME`
-   - Host/Name: `preview`
-   - Value/Target: `<your-github-username>.github.io`
-   - TTL: default
-6. DNS usually propagates within minutes to a few hours. Once GitHub shows the domain as
-   verified (green check on the Pages settings page), check "Enforce HTTPS."
-7. Send Red the link: `https://preview.r-rcigars.com`
+Built with an HTML-table layout (not CSS grid/flexbox) because that's still what
+renders reliably across Outlook, Gmail, and Apple Mail — email clients lag years behind
+browsers on CSS support.
 
-## Later: going live on the root domain
+**Placeholders to fill in per send** (all in brackets):
+- `[Announcement headline goes here]`
+- The body paragraph under "Hi [First Name],"
+- `[Button text, e.g. Visit Us]` and its link target
+- `[Phone number]` in the footer (same placeholder still pending from Red)
+- `{{unsubscribe_link}}` — see note below
 
-Once Red signs off on the design, this same content becomes the live site:
-- If staying on GitHub Pages: use a separate repo (or a `main`/`prod` branch) with the
-  `CNAME` file set to `r-rcigars.com` (apex) and `www.r-rcigars.com`, per the DNS record
-  set already worked out — see the project notes for the exact A/CNAME records.
-- If moving to Bluehost once the registrar transfer clears: no code changes needed — this
-  is plain static files. Copy everything except `CNAME` and `README.md` into the host's
-  public web root (e.g. `public_html/`), preserving the `vendors/` folder structure.
-- Either way, the registrar transfer lock (clears ~Sept 11) does not block any of this —
-  only the Bluehost *registrar* move itself.
+**Before sending any real campaign:**
+- This template references the logo at `https://preview.r-rcigars.com/images/rr-logo-email.png`.
+  `images/rr-logo-email.png` is included in this folder — upload it into the `images/`
+  folder of the preview GitHub repo (same web-upload method used for the other site
+  files) so that URL resolves. Once r-rcigars.com is live on Bluehost, switch the `src`
+  to `https://r-rcigars.com/images/rr-logo-email.png` instead.
+- Email templates aren't pasted into Gmail like the signature — they're meant to be
+  loaded into a sending tool (Mailchimp, Constant Contact, Formspree partner tools, or
+  Gmail's "Insert HTML" via a browser extension). Plain Gmail compose doesn't accept
+  raw HTML paste the way its signature box does.
+- The footer's physical address and an unsubscribe link are a CAN-SPAM requirement for
+  any commercial/promotional email in the US — keep both on every send. The
+  `{{unsubscribe_link}}` placeholder is written in the merge-tag style most sending
+  platforms use; replace it with whatever your platform's actual unsubscribe tag or URL
+  is.
 
-## Known placeholders / not-yet-real in this preview
+## Logo asset
 
-- Login is simulated — no real membership check yet (see the Auth & Inventory Integration
-  Plan doc for the real design).
-- Cart/order submission does not send anywhere yet — it's a UI walkthrough only.
-- 13 of 15 vendor cards link to "#" — only Drew Estate and Oliva have example detail pages.
-- Store hours and the phone number are still placeholder text on Home, Visit Us, Contact,
-  and Order Ahead — replace before flipping this to live.
-- Contact page is email/phone/map only — no working contact form (would need a form
-  backend like Formspree, since this is a static site with no server).
-- The Visit Us / Order Ahead map is a keyless `google.com/maps?...&output=embed` iframe
-  for 5946 Osgood Ave N, Oak Park Heights, MN 55082 — no API key or billing required.
-  It's tinted (`filter: invert() hue-rotate()`) to sit against the dark theme instead of
-  a stark white rectangle.
+`images/rr-logo-email.png` — the R&R Cigars wordmark, trimmed and exported with a
+transparent background at 640×341px, sourced from the vector logo
+(`R & R and Reds Lounge/Artifacts/R & R1.svg`) already in the project files. This is a
+different, higher-resolution export than any logo currently on the live site pages, so
+if you want it there too (e.g. as a favicon or header mark) just say so.
