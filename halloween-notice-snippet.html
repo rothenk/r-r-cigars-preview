@@ -1,0 +1,13 @@
+<!-- Paste right after the opening <body> tag of any page on the live site -->
+  <!-- Early-closing notice: Halloween 2026. Hides itself automatically after 4 PM Central on Oct 31; delete this block any time after. -->
+  <style>
+    .hours-notice{background:var(--red);color:var(--cream);text-align:center;font-family:Arial,Helvetica,sans-serif;
+      font-size:14px;line-height:1.5;letter-spacing:.04em;padding:12px 16px;border-bottom:1px solid var(--gold-soft);position:relative;z-index:5;}
+    .hours-notice strong{color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-right:8px;}
+  </style>
+  <div class="hours-notice" id="hours-notice" role="status">
+    <strong>Halloween Hours</strong>R&amp;R Cigars will close early at <b>4:00 PM on Saturday, October 31</b>. Regular hours resume Sunday, November 1.
+  </div>
+  <script>
+    (function(){ try{ if(Date.now() >= Date.parse('2026-10-31T16:00:00-05:00')){ var n=document.getElementById('hours-notice'); if(n) n.remove(); } }catch(e){} })();
+  </script>
